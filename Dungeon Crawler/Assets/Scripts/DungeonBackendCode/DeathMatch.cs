@@ -16,6 +16,7 @@ public class DeathMatch
     private Inhabitant currentTarget;
     private GameObject currentTargetGO;
     private MonoBehaviour refereeInstance;
+    public float xAngle, yAngle, zAngle;
 
     public DeathMatch(Inhabitant dude1, Inhabitant dude2, GameObject dude1GO, GameObject dude2GO, MonoBehaviour refereeInstance)
     {
@@ -58,10 +59,51 @@ public class DeathMatch
 
         if(this.currentTarget.isDead())
         {
+            //currentTargetGO.transform.eulerAngles = new Vector3(180, 0, 0);
+
+
+
             //what happens when our fight is over?
             //1. Make the dead guy fall over
             //2. Make the winner jump up and down
             //3. Player Victory Music
+
+            // Finish the fight scene as follows:
+            //Make the lose rotate onto his back
+            //Make the winner jump up and down
+            //Play the victory music
+
+            currentTargetGO.transform.SetPositionAndRotation(new Vector3(-8.08f, 1, 1.04f), Quaternion.Euler(320, 0, 0));
+
+            yield return new WaitForSeconds(0.25f);
+
+            currentAttackerGO.transform.SetPositionAndRotation(new Vector3(-1.27f, 5, 0.89f), Quaternion.Euler(0, 0, 0));
+
+            yield return new WaitForSeconds(0.25f);
+
+            currentAttackerGO.transform.SetPositionAndRotation(new Vector3(-1.27f, 1, 0.89f), Quaternion.Euler(0, 0, 0));
+
+            yield return new WaitForSeconds(0.25f);
+
+            currentAttackerGO.transform.SetPositionAndRotation(new Vector3(-1.27f, 5, 0.89f), Quaternion.Euler(0, 0, 0));
+
+            yield return new WaitForSeconds(0.25f);
+
+            currentAttackerGO.transform.SetPositionAndRotation(new Vector3(-1.27f, 1, 0.89f), Quaternion.Euler(0, 0, 0));
+
+            MasterData.musicLooper;
+
+
+
+
+
+            // Smoothly tilts a transform towards a target rotation.
+
+
+            // Rotate the cube by converting the angles into a quaternion.
+
+
+            // Dampen towards the target rotation
 
         }
         else
