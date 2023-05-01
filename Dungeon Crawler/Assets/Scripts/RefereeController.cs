@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RefereeController : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class RefereeController : MonoBehaviour
     public TextMeshPro playerSB;
     private Monster theMonster;
     private DeathMatch theMatch;
+    public GameObject fightJukeBox;
+    public GameObject winnerJukeBox;
+    public GameObject loseJukeBox;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +23,27 @@ public class RefereeController : MonoBehaviour
         this.updateScore();
         this.theMatch = new DeathMatch(MasterData.p, this.theMonster, this.playerGO, this.monsterGO, this);
         StartCoroutine(DelayBeforeFight());   
+    }
+
+    public void playWinnerMusic()
+    {
+        this.fightJukeBox.SetActive(false);
+        this.winnerJukeBox.SetActive(true);
+    }
+
+    public void playLoseMusic()
+    {
+        this.loseJukeBox.SetActive(true);
+    }
+
+    public void returnToDungeon()
+    {
+        SceneManager.LoadScene("DungeonRoom");
+    }
+
+    public void gameOverScreen()
+    {
+        SceneManager.LoadScene("gameOver");
     }
 
     public void updateScore()

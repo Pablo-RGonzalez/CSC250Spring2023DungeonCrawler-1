@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class DeathMatch
 {
     private Inhabitant dude1;
@@ -16,7 +17,6 @@ public class DeathMatch
     private Inhabitant currentTarget;
     private GameObject currentTargetGO;
     private MonoBehaviour refereeInstance;
-    public float xAngle, yAngle, zAngle;
 
     public DeathMatch(Inhabitant dude1, Inhabitant dude2, GameObject dude1GO, GameObject dude2GO, MonoBehaviour refereeInstance)
     {
@@ -31,9 +31,28 @@ public class DeathMatch
         this.refereeInstance = refereeInstance;
     }
 
+    private IEnumerator JumpCoroutine()
+    {
+        float duration = 60f;
+        float speed = 5f;
+        float startTime = Time.time;
+        Vector3 startPosition = this.currentAttackerGO.transform.position;
+
+
+
+        while(Time.time - startTime < duration)
+        {
+            float newY = startPosition.y + Mathf.Sin((Time.time - startTime) * speed) * 0.5f;
+            this.currentAttackerGO.transform.position = new Vector3(this.currentAttackerGO.transform.position.x, newY, this.currentAttackerGO.transform.position.z);
+
+            yield return null;
+        }
+    }
+
     //this is basically a thread (like our worker bees from Java)
     IEnumerator MoveObjectRoutine()
     {
+
         //yield return new WaitForSeconds(1.5f);
         Vector3 originalPosition = this.attackerOriginalPosition;
         Vector3 targetPosition = originalPosition + this.currentAttackerGO.transform.right * attackMoveDistance;
@@ -50,60 +69,51 @@ public class DeathMatch
             this.currentTarget.takeDamage(this.currentAttacker.getDamage());
         }
 
-        
-
         yield return new WaitForSeconds(0.5f);
 
         //this.refereeInstance.BroadcastMessage("updateScore");
         ((RefereeController)this.refereeInstance).updateScore();
 
+
         if(this.currentTarget.isDead())
         {
-            //currentTargetGO.transform.eulerAngles = new Vector3(180, 0, 0);
-
-
+            MasterData.shouldFollowRotation = true;
+            this.currentTargetGO.transform.Rotate(new Vector3(180, 0, 0));
 
             //what happens when our fight is over?
             //1. Make the dead guy fall over
+
+            this.refereeInstance.StartCoroutine(JumpCoroutine());
+            //this.currentTargetGO.transform.Rotate(180, 0, 0);
+
             //2. Make the winner jump up and down
+
+            //this.refereeInstance.StartCoroutine(JumpCoroutine());
+
             //3. Player Victory Music
+            if(this.currentAttackerGO == this.dude1GO)
+            {
+                ((RefereeController)this.refereeInstance).playWinnerMusic();
+                yield return new WaitForSeconds(0.5f);
+                ((RefereeController)this.refereeInstance).returnToDungeon();
+
+
+            }
+            else
+            {
+                //play sad game over
+                ((RefereeController)this.refereeInstance).playLoseMusic();
+                yield return new WaitForSeconds(0.5f);
+                ((RefereeController)this.refereeInstance).gameOverScreen();
+
+
+            }
+            
 
             // Finish the fight scene as follows:
             //Make the lose rotate onto his back
             //Make the winner jump up and down
             //Play the victory music
-
-            currentTargetGO.transform.SetPositionAndRotation(new Vector3(-8.08f, 1, 1.04f), Quaternion.Euler(320, 0, 0));
-
-            yield return new WaitForSeconds(0.25f);
-
-            currentAttackerGO.transform.SetPositionAndRotation(new Vector3(-1.27f, 5, 0.89f), Quaternion.Euler(0, 0, 0));
-
-            yield return new WaitForSeconds(0.25f);
-
-            currentAttackerGO.transform.SetPositionAndRotation(new Vector3(-1.27f, 1, 0.89f), Quaternion.Euler(0, 0, 0));
-
-            yield return new WaitForSeconds(0.25f);
-
-            currentAttackerGO.transform.SetPositionAndRotation(new Vector3(-1.27f, 5, 0.89f), Quaternion.Euler(0, 0, 0));
-
-            yield return new WaitForSeconds(0.25f);
-
-            currentAttackerGO.transform.SetPositionAndRotation(new Vector3(-1.27f, 1, 0.89f), Quaternion.Euler(0, 0, 0));
-
-            MasterData.musicLooper;
-
-
-
-
-
-            // Smoothly tilts a transform towards a target rotation.
-
-
-            // Rotate the cube by converting the angles into a quaternion.
-
-
-            // Dampen towards the target rotation
 
         }
         else

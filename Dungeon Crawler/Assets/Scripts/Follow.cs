@@ -16,5 +16,10 @@ public class Follow : MonoBehaviour
     void Update()
     {
         this.transform.position = this.gameObjectToFollow.transform.position;
+
+        if(MasterData.shouldFollowRotation == true)
+        {
+            this.transform.rotation = this.gameObjectToFollow.transform.rotation;
+        }
     }
 }
