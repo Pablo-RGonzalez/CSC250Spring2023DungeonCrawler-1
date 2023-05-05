@@ -77,8 +77,10 @@ public class DeathMatch
 
         if(this.currentTarget.isDead())
         {
+
             MasterData.shouldFollowRotation = true;
             this.currentTargetGO.transform.Rotate(new Vector3(180, 0, 0));
+            MasterData.shouldFollowRotation = false;
 
             //what happens when our fight is over?
             //1. Make the dead guy fall over
@@ -94,19 +96,17 @@ public class DeathMatch
             if(this.currentAttackerGO == this.dude1GO)
             {
                 ((RefereeController)this.refereeInstance).playWinnerMusic();
-                yield return new WaitForSeconds(0.5f);
-                ((RefereeController)this.refereeInstance).returnToDungeon();
+                
+                
 
 
             }
             else
             {
                 //play sad game over
-                ((RefereeController)this.refereeInstance).playLoseMusic();
-                yield return new WaitForSeconds(0.5f);
-                ((RefereeController)this.refereeInstance).gameOverScreen();
-
-
+                ((RefereeController)this.refereeInstance).playLoserMusic();
+                
+                
             }
             
 
@@ -132,6 +132,7 @@ public class DeathMatch
         //go back and forth like this until an inhabitant dies
         //while(true)
         //{
+        
             this.attackerOriginalPosition = this.currentAttackerGO.transform.position;
             this.currRigidBodyOfAttacker = this.currentAttackerGO.GetComponent<Rigidbody>();
             this.attackMoveDistance *= -1;

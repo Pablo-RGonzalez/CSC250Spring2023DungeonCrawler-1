@@ -4,7 +4,7 @@ public class Player : Inhabitant
 
     public Player(string name) : base(name)
     {
-        
+
     }
 
     public Room getCurrentRoom()

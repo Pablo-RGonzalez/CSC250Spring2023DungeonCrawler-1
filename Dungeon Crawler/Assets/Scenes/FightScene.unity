@@ -286,7 +286,7 @@ MonoBehaviour:
   playerSB: {fileID: 299749665}
   fightJukeBox: {fileID: 28421175}
   winnerJukeBox: {fileID: 1867699093}
-  loseJukeBox: {fileID: 674736113}
+  loserJukeBox: {fileID: 674736113}
 --- !u!4 &105767636
 Transform:
   m_ObjectHideFlags: 0
@@ -766,12 +766,12 @@ GameObject:
   - component: {fileID: 674736115}
   - component: {fileID: 674736114}
   m_Layer: 0
-  m_Name: loseJukeBox
+  m_Name: loserJukeBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &674736114
 AudioSource:
   m_ObjectHideFlags: 0
@@ -782,7 +782,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ad350e719f2e9495c90b6573c354f444, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 20ec7df975c1e405ebcb10bfd3d71650, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1796,7 +1796,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1867699094
 AudioSource:
   m_ObjectHideFlags: 0

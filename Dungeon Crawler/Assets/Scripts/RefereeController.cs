@@ -14,7 +14,7 @@ public class RefereeController : MonoBehaviour
     private DeathMatch theMatch;
     public GameObject fightJukeBox;
     public GameObject winnerJukeBox;
-    public GameObject loseJukeBox;
+    public GameObject loserJukeBox;
 
     // Start is called before the first frame update
     void Start()
@@ -29,20 +29,20 @@ public class RefereeController : MonoBehaviour
     {
         this.fightJukeBox.SetActive(false);
         this.winnerJukeBox.SetActive(true);
+        StartCoroutine(ShowDungeonScene());
     }
 
-    public void playLoseMusic()
+    public void playLoserMusic()
     {
-        this.loseJukeBox.SetActive(true);
+        this.fightJukeBox.SetActive(false);
+        this.loserJukeBox.SetActive(true);
+        StartCoroutine(ShowGameOverScene());
     }
 
-    public void returnToDungeon()
-    {
-        SceneManager.LoadScene("DungeonRoom");
-    }
 
-    public void gameOverScreen()
+    IEnumerator ShowGameOverScene()
     {
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("gameOver");
     }
 
@@ -52,8 +52,16 @@ public class RefereeController : MonoBehaviour
         this.playerSB.text = MasterData.p.getData();
     }
 
+    IEnumerator ShowDungeonScene()
+    {
+        yield return new WaitForSeconds(2.0f);
+        MasterData.isExiting = false;
+        SceneManager.LoadScene("DungeonRoom");
+    }
+
     IEnumerator DelayBeforeFight()
     {
+        MasterData.canGetIntoFight = false;
         yield return new WaitForSeconds(0.5f);
         this.theMatch.fight();
         
